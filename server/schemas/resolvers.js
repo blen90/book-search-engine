@@ -6,18 +6,37 @@ const resolvers = {
     Query: {
         me: async () => {
             return User.find();
-          },
-      
-          me: async (parent, { userId }) => {
+        },
+
+        me: async (parent, { userId }) => {
             return User.findOne({ _id: userId });
-          },
+        },
     },
 
     Mutation: {
         addUser: async (parent, args) => {
-            const user = await User.create(args); 
-            return user;
-        }
+            const user = await User.create({ username, email, password });
+            const token = signToken(user);
+
+            return { token, user };
+        },
+        login: async (parent, { email, password }) => {
+            const user = await User.findOne({ email });
+
+            if (!user) {
+                throw new AuthenticationError('Login information is incorrect');
+            }
+
+            const correctPw = await user.isCorrectPassword(password);
+
+            if (!correctPw) {
+                throw new AuthenticationError('Login information is incorrect');
+            }
+
+            const token = signToken(user);
+            return { token, user };
+        },
+
     }
 }
 
@@ -33,14 +52,14 @@ module.exports = resolvers;
 //     if (!user) {
 //       throw new Error('User not found')
 //     }
-  
+
 //     const valid = await bcrypt.compare(args.password, user.password)
 //     if (!valid) {
 //       throw new Error('Sorry, Wrong password')
 //     }
-  
+
 //     const token = jwt.sign({ userId: user.id }, APP_SECRET)
-  
+
 //     return {
 //       token,
 //       user,
