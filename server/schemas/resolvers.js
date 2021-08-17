@@ -39,14 +39,16 @@ const resolvers = {
             return { token, user };
         },
 
-        saveBook: async (parent, { book }, context) => {
+        saveBook: async(parent, { bookData }, context) => {
+            console.log("HERE!!!!!!")
+            console.log("book data:", bookData)
             if (context.user) {
-                const user = await User.findByIdAndUpdate(
-                    { _id: context.user._id },
-                    { $push: { savedBooks: book } },
+                const updatedUser = await User.findByIdAndUpdate(
+                    { _id: context.user.id },
+                    { $push: { savedBooks: bookData } },
                     { new: true }
                 );
-                return user;
+                return updatedUser;
             }
 
             throw new AuthenticationError('You are not logged in!');
