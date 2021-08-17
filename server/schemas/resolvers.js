@@ -6,7 +6,7 @@ const resolvers = {
     Query: {
         me: async (parent, args, context) => {
             if (context.user) {
-                const userData = await User.findOne({ _id: context.user._id }).select('-__v -password').populate('books');
+                const userData = await User.findOne({ _id: context.user._id }).select('-__v -password')
 
                 return userData;
             }
@@ -41,10 +41,10 @@ const resolvers = {
 
         saveBook: async(parent, { bookData }, context) => {
             console.log("HERE!!!!!!")
-            console.log("book data:", bookData)
+            console.log(context)
             if (context.user) {
                 const updatedUser = await User.findByIdAndUpdate(
-                    { _id: context.user.id },
+                    { _id: context.user._id },
                     { $push: { savedBooks: bookData } },
                     { new: true }
                 );
