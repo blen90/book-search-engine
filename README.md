@@ -1,4 +1,4 @@
-# book-search-engine
+# Book Search Engine
 
 ---
 ## Deployed link of the app on Heroku
