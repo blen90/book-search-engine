@@ -39,7 +39,7 @@ https://polar-peak-76537.herokuapp.com/
 
 # Installation
 
-Visit the deployed app an search for your favorite books in the following link: https://polar-peak-76537.herokuapp.com/
+Visit the deployed app and search for your favorite books in the following link: https://polar-peak-76537.herokuapp.com/
 
 # Usage
 
